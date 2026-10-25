@@ -1,0 +1,35 @@
+name: Build and Package 2048 Port
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout release tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Configure environment
+        run: |
+          echo "MY_UID=$(id -u)" > .env
+          echo "MY_GID=$(id -g)" >> .env
+
+      - name: Build MIPS binary
+        run: docker compose run --build --rm 2048-builder
+
+      - name: Package for TreeFrogUI
+        run: bash ./tools/package.sh
+
+      - name: Upload to Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$TAG" out/2048.zip --clobber
