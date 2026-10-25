@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "id": "2048",
+  "name": "2048",
+  "launcher": "2048.sh",
+  "launch": {
+    "type": "native",
+    "binary": "2048"
+  },
+  "required_file_sets": [],
+  "setup_guide": "Just play it.",
+  "setup_guide_url": ""
+}
