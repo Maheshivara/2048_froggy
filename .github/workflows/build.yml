@@ -21,6 +21,8 @@ jobs:
         run: |
           echo "MY_UID=$(id -u)" > .env
           echo "MY_GID=$(id -g)" >> .env
+          mkdir -p out
+          chmod 775 out
 
       - name: Build MIPS binary
         run: docker compose run --build --rm 2048-builder
